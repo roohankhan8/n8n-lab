@@ -63,6 +63,13 @@ services:
     volumes:
       - sandbox-tls:/tls:ro
 
+  searxng:
+    image: ghcr.io/searxng/searxng:latest
+    environment:
+      SEARXNG_SECRET: ${SEARXNG_SECRET}
+    volumes:
+      - ./searxng-settings.yml:/etc/searxng/settings.yml:ro
+
   n8n:
     image: docker.n8n.io/n8nio/n8n:latest
     container_name: n8n
@@ -82,6 +89,7 @@ services:
       N8N_INSTANCE_AI_SANDBOX_PROVIDER: n8n-sandbox
       N8N_SANDBOX_SERVICE_URL: ${N8N_SANDBOX_SERVICE_URL}
       N8N_SANDBOX_SERVICE_API_KEY: ${N8N_SANDBOX_SERVICE_API_KEY}
+      N8N_INSTANCE_AI_SEARXNG_URL: http://searxng:8080
       N8N_INSTANCE_AI_MODEL_API_KEY: ${N8N_INSTANCE_AI_MODEL_API_KEY}
     volumes:
       - n8n_data:/home/node/.n8n
